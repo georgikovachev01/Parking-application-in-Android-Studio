@@ -1,4 +1,4 @@
-package com.parking.app;
+package com.parking.app.models;
 
 public class Reservation {
     private String reservationId;

@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "703449886861",
-    "project_id": "parkingapp-c94da",
-    "storage_bucket": "parkingapp-c94da.appspot.com"
+    "project_number": "228244491149",
+    "firebase_url": "https://applicationparking-23c41-default-rtdb.firebaseio.com",
+    "project_id": "applicationparking-23c41",
+    "storage_bucket": "applicationparking-23c41.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:703449886861:android:aff3b9b316f1f7090232c4",
+        "mobilesdk_app_id": "1:228244491149:android:ebbd71c3bb3cf642010bc4",
         "android_client_info": {
           "package_name": "com.parking.app"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAbLEla5eSR8tr5wFBiG-rfdZF2OQhBV04"
+          "current_key": "AIzaSyBVcgSO2Zl0vddtya3URieItnb29Jkj3Z0"
         }
       ],
       "services": {

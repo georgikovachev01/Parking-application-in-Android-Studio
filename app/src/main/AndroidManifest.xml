@@ -1,7 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.parking.app">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,30 +25,32 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCIKPwixFT_3JXzp9KZEo_GCdfE_JkhdXU"/>
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".views.FindParkingDetailsActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCIKPwixFT_3JXzp9KZEo_GCdfE_JkhdXU" />
+
+        <activity
+            android:name=".views.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".FindParkingActivity" />
-        <activity android:name=".FeedbackActivity" />
-        <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".RecommendedParkingActivity" />
-        <activity android:name=".OldReservationsActivity" />
-        <activity android:name=".RecommendedParkingActivity" /> 
-        <activity android:name=".OldReservationsActivity" />
+        <activity android:name=".views.LoginActivity" />
+        <activity android:name=".views.RegisterActivity" />
+        <activity android:name=".views.ProfileActivity" />
+        <activity android:name=".views.FindParkingActivity" />
+        <activity android:name=".views.FeedbackActivity" />
+        <activity android:name=".views.ChangePasswordActivity" />
+        <activity android:name=".views.RecommendedParkingActivity" />
+        <activity android:name=".views.OldReservationsActivity" />
 
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>

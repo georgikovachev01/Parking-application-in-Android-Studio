@@ -1,4 +1,4 @@
-package com.parking.app;
+package com.parking.app.models;
 import java.util.List; 
 
 // Retrofit response model

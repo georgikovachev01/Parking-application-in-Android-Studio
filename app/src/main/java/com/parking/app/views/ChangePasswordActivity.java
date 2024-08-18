@@ -1,4 +1,6 @@
-package com.parking.app;
+package com.parking.app.views;
+
+import static com.parking.app.utils.AppUtils.ToastLocal;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.parking.app.R;
+import com.parking.app.utils.AppUtils;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -74,19 +78,22 @@ public class ChangePasswordActivity extends AppCompatActivity {
             editTextNewPassword.setError("Enter new password");
             return;
         }
-
-        // Change password using Firebase Auth
-        mAuth.getCurrentUser().updatePassword(newPassword)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
-                            finish(); // Finish this activity and return to previous screen
-                        } else {
-                            Toast.makeText(ChangePasswordActivity.this, "Failed to change password: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+        if (AppUtils.isInternetAvailable(this)) {
+            // Change password using Firebase Auth
+            mAuth.getCurrentUser().updatePassword(newPassword)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
+                                finish(); // Finish this activity and return to previous screen
+                            } else {
+                                Toast.makeText(ChangePasswordActivity.this, "Failed to change password: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            ToastLocal(R.string.no_internet_connection, this);
+        }
     }
 }

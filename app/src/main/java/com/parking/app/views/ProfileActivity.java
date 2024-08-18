@@ -1,4 +1,4 @@
-package com.parking.app;
+package com.parking.app.views;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -27,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.parking.app.R;
+import com.parking.app.utils.AppUtils;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -57,8 +59,12 @@ public class ProfileActivity extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUser.getUid());
         storageRef = FirebaseStorage.getInstance().getReference().child("profile_photos").child(currentUser.getUid() + ".jpg");
 
-        // Fetch and display user details including profile photo
-        fetchUserProfile();
+        if (AppUtils.isInternetAvailable(this)) {
+            // Fetch and display user details including profile photo
+            fetchUserProfile();
+        } else {
+            AppUtils.ToastLocal(R.string.no_internet_connection, this);
+        }
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,15 +76,23 @@ public class ProfileActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle update button click
-                updateProfile();
+                if (AppUtils.isInternetAvailable(ProfileActivity.this)) {
+                    // Handle update button click
+                    updateProfile();
+                } else {
+                    AppUtils.ToastLocal(R.string.no_internet_connection, ProfileActivity.this);
+                }
             }
         });
 
         changePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFileChooser();
+                if (AppUtils.isInternetAvailable(ProfileActivity.this)) {
+                    openFileChooser();
+                } else {
+                    AppUtils.ToastLocal(R.string.no_internet_connection, ProfileActivity.this);
+                }
             }
         });
     }

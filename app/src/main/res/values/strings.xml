@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ParkingApp for All</string>
+    <string name="app_name">Park</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="profile">Profile</string>
@@ -12,4 +12,13 @@
     <string name="feedback_hint">Enter your feedback</string>
     <string name="submit_feedback">Submit</string>
     <string name="feedback_icon">Feedback Icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="recommend">Recommend</string>
+    <string name="reserve">Reserve</string>
+    <string name="contact">Contact</string>
+    <string name="list_of_prices">List Of Prices</string>
+    <string name="my_reservations">My Reservations</string>
+    <string name="recommend_reserve">Recommend/Reserve</string>
+    <string name="no_internet_connection">No internet connection</string>
 </resources>
