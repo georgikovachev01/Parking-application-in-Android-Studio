@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.parking.app.utils.AppUtils;
 public class FeedbackActivity extends AppCompatActivity {
 
     private EditText feedbackEditText;
+    private RatingBar ratingBar;
     private Button submitFeedbackButton;
     private DatabaseReference feedbackDatabase;
     private FirebaseAuth firebaseAuth;
@@ -45,6 +47,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
         // Initialize views
         feedbackEditText = findViewById(R.id.feedbackEditText);
+        ratingBar = findViewById(R.id.ratingBar);
         submitFeedbackButton = findViewById(R.id.submitFeedbackButton);
 
         // Set up submit button listener
@@ -62,6 +65,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private void submitFeedback() {
         String feedback = feedbackEditText.getText().toString().trim();
+        int rating = (int) ratingBar.getRating();
 
         if (feedback.isEmpty()) {
             Toast.makeText(this, "Please enter your feedback", Toast.LENGTH_SHORT).show();
@@ -76,18 +80,14 @@ public class FeedbackActivity extends AppCompatActivity {
         }
 
         String userId = currentUser.getUid(); // Get user ID
-        String emailId = currentUser.getEmail();// user email id
+        String emailId = currentUser.getEmail(); // Get user email ID
 
         // Get current date (example: "2024-08-06")
         String currentDate = java.text.DateFormat.getDateInstance().format(new java.util.Date());
 
         // Create feedback object
-        Feedback feedbackObject = new Feedback(feedback, currentDate, userId, emailId);
-       /* // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
+        Feedback feedbackObject = new Feedback(feedback, currentDate, userId, emailId, rating);
 
-        myRef.setValue("Hello, World!");*/
         // Save feedback to Firebase
         feedbackDatabase.child(userId).setValue(feedbackObject)
                 .addOnCompleteListener(task -> {
@@ -108,6 +108,4 @@ public class FeedbackActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

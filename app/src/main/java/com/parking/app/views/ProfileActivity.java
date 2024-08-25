@@ -32,7 +32,8 @@ import com.parking.app.utils.AppUtils;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private EditText emailEditText, nameEditText, phoneEditText;
+    private EditText emailEditText, nameEditText, phoneEditText, cityEditText, ageEditText;
+    private EditText vehicleTypeEditText, vehicleModelEditText, vehicleRegEditText;
     private ImageView profilePhotoImageView;
     private Button backButton, updateButton, changePhotoButton;
     private FirebaseUser currentUser;
@@ -49,6 +50,11 @@ public class ProfileActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         nameEditText = findViewById(R.id.nameEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
+        cityEditText = findViewById(R.id.cityEditText);
+        ageEditText = findViewById(R.id.ageEditText);
+        vehicleTypeEditText = findViewById(R.id.vehicleTypeEditText);
+        vehicleModelEditText = findViewById(R.id.vehicleModelEditText);
+        vehicleRegEditText = findViewById(R.id.vehicleRegEditText);
         profilePhotoImageView = findViewById(R.id.profilePhotoImageView);
         changePhotoButton = findViewById(R.id.changePhotoButton);
         backButton = findViewById(R.id.backButton);
@@ -105,16 +111,20 @@ public class ProfileActivity extends AppCompatActivity {
                 String email = dataSnapshot.child("email").getValue(String.class);
                 String name = dataSnapshot.child("name").getValue(String.class);
                 String phone = dataSnapshot.child("phone").getValue(String.class);
+                String city = dataSnapshot.child("city").getValue(String.class);
+                String age = dataSnapshot.child("age").getValue(String.class);
+                String vehicleType = dataSnapshot.child("vehicleType").getValue(String.class);
+                String vehicleModel = dataSnapshot.child("vehicleModel").getValue(String.class);
+                String vehicleReg = dataSnapshot.child("vehicleReg").getValue(String.class);
 
-                if (email != null) {
-                    emailEditText.setText(email);
-                }
-                if (name != null) {
-                    nameEditText.setText(name);
-                }
-                if (phone != null) {
-                    phoneEditText.setText(phone);
-                }
+                if (email != null) emailEditText.setText(email);
+                if (name != null) nameEditText.setText(name);
+                if (phone != null) phoneEditText.setText(phone);
+                if (city != null) cityEditText.setText(city);
+                if (age != null) ageEditText.setText(age);
+                if (vehicleType != null) vehicleTypeEditText.setText(vehicleType);
+                if (vehicleModel != null) vehicleModelEditText.setText(vehicleModel);
+                if (vehicleReg != null) vehicleRegEditText.setText(vehicleReg);
 
                 // Load profile photo if exists
                 if (dataSnapshot.hasChild("profile_photo_url")) {
@@ -137,17 +147,24 @@ public class ProfileActivity extends AppCompatActivity {
         String newEmail = emailEditText.getText().toString().trim();
         String newName = nameEditText.getText().toString().trim();
         String newPhone = phoneEditText.getText().toString().trim();
+        String newCity = cityEditText.getText().toString().trim();
+        String newAge = ageEditText.getText().toString().trim();
+        String newVehicleType = vehicleTypeEditText.getText().toString().trim();
+        String newVehicleModel = vehicleModelEditText.getText().toString().trim();
+        String newVehicleReg = vehicleRegEditText.getText().toString().trim();
 
         databaseRef.child("email").setValue(newEmail);
         databaseRef.child("name").setValue(newName);
-        databaseRef.child("phone").setValue(newPhone)
+        databaseRef.child("phone").setValue(newPhone);
+        databaseRef.child("city").setValue(newCity);
+        databaseRef.child("age").setValue(newAge);
+        databaseRef.child("vehicleType").setValue(newVehicleType);
+        databaseRef.child("vehicleModel").setValue(newVehicleModel);
+        databaseRef.child("vehicleReg").setValue(newVehicleReg)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // Update successful
                         Toast.makeText(ProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-
-                        // Update profile photo if image selected
                         if (imageUri != null) {
                             uploadProfilePhoto();
                         }
@@ -156,7 +173,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // Handle failed update
                         Toast.makeText(ProfileActivity.this, "Failed to update profile information: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -244,5 +260,4 @@ public class ProfileActivity extends AppCompatActivity {
     public void onBackButtonClick(View view) {
         onBackPressed();
     }
-
 }

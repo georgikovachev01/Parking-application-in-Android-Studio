@@ -10,15 +10,7 @@ public class Feedback {
     @PropertyName("UserId")
     private String userId;
     @PropertyName("Rating")
-    private int Rating;
-
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
+    private int rating;
 
     @PropertyName("email")
     private String emailId;
@@ -27,11 +19,12 @@ public class Feedback {
         // Default constructor required for calls to DataSnapshot.getValue(Feedback.class)
     }
 
-    public Feedback(String feedback, String date, String userId, String emailId) {
+    public Feedback(String feedback, String date, String userId, String emailId, int rating) {
         this.feedback = feedback;
         this.date = date;
         this.userId = userId;
         this.emailId = emailId;
+        this.rating = rating;
     }
 
     // Getters and setters (optional)
@@ -57,5 +50,21 @@ public class Feedback {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 }

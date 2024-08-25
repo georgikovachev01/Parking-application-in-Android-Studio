@@ -44,11 +44,11 @@ public class RecommendedParkingActivity extends AppCompatActivity implements OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommended_parking);
         recyclerView = findViewById(R.id.recycler_view); // Ensure this ID matches the one in XML
-       if (AppUtils.isInternetAvailable(this)) {
-           loadParkingSlots();
-       }else {
-           AppUtils.ToastLocal(R.string.no_internet_connection, this);
-       }
+        if (AppUtils.isInternetAvailable(this)) {
+            loadParkingSlots();
+        }else {
+            AppUtils.ToastLocal(R.string.no_internet_connection, this);
+        }
     }
 
     private void loadParkingSlots() {
@@ -124,7 +124,7 @@ public class RecommendedParkingActivity extends AppCompatActivity implements OnI
     @Override
     public void itemActionSelected(ParkingSlot slot, String action) {
         Log.d("RecommendedParkingActivity", "Item action selected: " +slot);
-       handleaction(slot,Reserved);
+        handleaction(slot,Reserved);
     }
 
     private void handleaction(ParkingSlot slot, String status) {
@@ -157,3 +157,4 @@ public class RecommendedParkingActivity extends AppCompatActivity implements OnI
 
     }
 }
+

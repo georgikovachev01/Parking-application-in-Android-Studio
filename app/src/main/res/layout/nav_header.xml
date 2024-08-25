@@ -7,17 +7,17 @@
     android:gravity="bottom">
 
     <ImageView
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:src="@drawable/profile_image"
+        android:layout_width="192dp"
+        android:layout_height="114dp"
+        android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
-        android:layout_marginBottom="8dp"/>
+        android:src="@drawable/r" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Username"
+        android:layout_height="145dp"
+        android:text="Parky is a mobile app that allows you to book parking spots in real time. Find and reserve parking easily with just a few taps"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/black" />
 
 </LinearLayout>

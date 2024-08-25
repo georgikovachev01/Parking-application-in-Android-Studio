@@ -1,17 +1,18 @@
 <resources>
-    <string name="app_name">Park</string>
+    <string name="app_name">Parky</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="profile">Profile</string>
     <string name="feedback">Feedback</string>
     <string name="change_password">Change Password</string>
     <string name="find_parking">Find Parking</string>
-    <string name="recommended_parking">Recommended Parking</string>
+    <string name="recommended_parking">Recommended Parkings</string>
     <string name="old_reservations">Old Reservations</string>
     <string name="logout">Logout</string>
     <string name="feedback_hint">Enter your feedback</string>
     <string name="submit_feedback">Submit</string>
     <string name="feedback_icon">Feedback Icon</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="recommend">Recommend</string>
@@ -19,6 +20,6 @@
     <string name="contact">Contact</string>
     <string name="list_of_prices">List Of Prices</string>
     <string name="my_reservations">My Reservations</string>
-    <string name="recommend_reserve">Recommend/Reserve</string>
+    <string name="recommend_reserve">Recommend and Reserve</string>
     <string name="no_internet_connection">No internet connection</string>
 </resources>

@@ -63,8 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/emailLabel"
         android:inputType="textEmailAddress"
-        android:layout_marginEnd="16dp"
-        android:enabled="false"/> <!-- Ensure enabled attribute is set to false initially -->
+        android:layout_marginEnd="16dp"/>
 
     <!-- Name TextView -->
     <TextView
@@ -72,10 +71,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailLabel"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
+        app:layout_constraintStart_toStartOf="@id/emailLabel"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
+        android:layout_marginTop="16dp"/>
 
     <!-- Name EditText -->
     <EditText
@@ -87,8 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/nameLabel"
         android:inputType="textPersonName"
-        android:layout_marginEnd="16dp"
-        android:enabled="false"/> <!-- Ensure enabled attribute is set to false initially -->
+        android:layout_marginEnd="16dp"/>
 
     <!-- Phone TextView -->
     <TextView
@@ -96,10 +93,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Phone:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameLabel"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
+        app:layout_constraintStart_toStartOf="@id/nameLabel"
+        app:layout_constraintTop_toBottomOf="@id/nameEditText"
+        android:layout_marginTop="16dp"/>
 
     <!-- Phone EditText -->
     <EditText
@@ -111,8 +107,117 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/phoneLabel"
         android:inputType="phone"
+        android:layout_marginEnd="16dp"/>
+
+    <!-- City TextView -->
+    <TextView
+        android:id="@+id/cityLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="City:"
+        app:layout_constraintStart_toStartOf="@id/phoneLabel"
+        app:layout_constraintTop_toBottomOf="@id/phoneEditText"
+        android:layout_marginTop="16dp"/>
+
+    <!-- City EditText -->
+    <EditText
+        android:id="@+id/cityEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter city"
+        app:layout_constraintStart_toEndOf="@id/cityLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cityLabel"
         android:layout_marginEnd="16dp"
-        android:enabled="false"/> <!-- Ensure enabled attribute is set to false initially -->
+        android:inputType="text"/>
+
+    <!-- Age TextView -->
+    <TextView
+        android:id="@+id/ageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age:"
+        app:layout_constraintStart_toStartOf="@id/cityLabel"
+        app:layout_constraintTop_toBottomOf="@id/cityEditText"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Age EditText -->
+    <EditText
+        android:id="@+id/ageEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter age"
+        app:layout_constraintStart_toEndOf="@id/ageLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ageLabel"
+        android:layout_marginEnd="16dp"
+        android:inputType="number"/>
+
+    <!-- Vehicle Type TextView -->
+    <TextView
+        android:id="@+id/vehicleTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vehicle Type:"
+        app:layout_constraintStart_toStartOf="@id/ageLabel"
+        app:layout_constraintTop_toBottomOf="@id/ageEditText"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Vehicle Type EditText -->
+    <EditText
+        android:id="@+id/vehicleTypeEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter vehicle type"
+        app:layout_constraintStart_toEndOf="@id/vehicleTypeLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/vehicleTypeLabel"
+        android:layout_marginEnd="16dp"
+        android:inputType="text"/>
+
+    <!-- Vehicle Model TextView -->
+    <TextView
+        android:id="@+id/vehicleModelLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vehicle Model:"
+        app:layout_constraintStart_toStartOf="@id/vehicleTypeLabel"
+        app:layout_constraintTop_toBottomOf="@id/vehicleTypeEditText"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Vehicle Model EditText -->
+    <EditText
+        android:id="@+id/vehicleModelEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter vehicle model"
+        app:layout_constraintStart_toEndOf="@id/vehicleModelLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/vehicleModelLabel"
+        android:layout_marginEnd="16dp"
+        android:inputType="text"/>
+
+    <!-- Vehicle Registration Number TextView -->
+    <TextView
+        android:id="@+id/vehicleRegLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registration Number:"
+        app:layout_constraintStart_toStartOf="@id/vehicleModelLabel"
+        app:layout_constraintTop_toBottomOf="@id/vehicleModelEditText"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Vehicle Registration Number EditText -->
+    <EditText
+        android:id="@+id/vehicleRegEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter registration number"
+        app:layout_constraintStart_toEndOf="@id/vehicleRegLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/vehicleRegLabel"
+        android:layout_marginEnd="16dp"
+        android:inputType="text"/>
 
     <!-- Back Button -->
     <Button
