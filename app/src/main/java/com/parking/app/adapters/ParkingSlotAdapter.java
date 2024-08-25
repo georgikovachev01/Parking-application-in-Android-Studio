@@ -109,7 +109,4 @@ public class ParkingSlotAdapter extends RecyclerView.Adapter<ParkingSlotAdapter.
             bt_recommend_reserve = itemView.findViewById(R.id.bt_recommend_reserve);
         }
     }
-
-
-
 }

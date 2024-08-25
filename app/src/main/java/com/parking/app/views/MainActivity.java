@@ -118,10 +118,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.btn_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                sendToLoginActivity();
+                // Създаване на диалог за потвърждение
+                new AlertDialog.Builder(MainActivity.this)
+                        .setMessage("Do you really want to log out?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Ако потребителят избере "Да", извършваме лог-аут
+                                FirebaseAuth.getInstance().signOut();
+                                sendToLoginActivity();
+                            }
+                        })
+                        .setNegativeButton("No", null) // Ако потребителят избере "Не", диалогът просто се затваря
+                        .show();
             }
         });
+
     }
 
     @Override
@@ -216,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION, CALL_PHONE}, PERMISSION_REQUEST_CODE);
 
     }
+
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(MainActivity.this)

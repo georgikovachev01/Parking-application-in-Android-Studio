@@ -23,14 +23,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.parking.app.R;
 import com.parking.app.utils.AppUtils;
 
-//import missing.namespace.R;
-
 public class LoginActivity extends AppCompatActivity {
     EditText userName, password;
     Button login;
     TextView register, forgotPassword;
-    FirebaseUser currentUser;//used to store current user of account
-    FirebaseAuth mAuth;//Used for firebase authentication
+    FirebaseUser currentUser; // used to store current user of account
+    FirebaseAuth mAuth; // Used for firebase authentication
     ProgressDialog loadingBar;
 
     @Override
@@ -45,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         loadingBar = new ProgressDialog(this);
         currentUser = mAuth.getCurrentUser();
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,23 +54,25 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (AppUtils.isInternetAvailable(LoginActivity.this)) {
                     sendUserToRegister();
-                }else {
+                } else {
                     ToastLocal(R.string.no_internet_connection, LoginActivity.this);
                 }
             }
         });
-        //if user forgets the password then to reset it
+
+        // if user forgets the password then to reset it
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (AppUtils.isInternetAvailable(LoginActivity.this)) {
                     resetPasswordUser();
-                }else {
+                } else {
                     ToastLocal(R.string.no_internet_connection, LoginActivity.this);
                 }
             }
@@ -83,12 +84,21 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(LoginActivity.this, "Please enter your email id", Toast.LENGTH_SHORT).show();
         } else {
+            loadingBar.setTitle("Sending Reset Email");
+            loadingBar.setMessage("Please wait...");
+            loadingBar.setCanceledOnTouchOutside(false);
+            loadingBar.show();
+
             FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            loadingBar.dismiss();
                             if (task.isSuccessful()) {
-                                Toast.makeText(LoginActivity.this, "Reset Email sent", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Reset Email sent. Please check your inbox.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                String error = task.getException().getMessage();
+                                Toast.makeText(LoginActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -96,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendUserToRegister() {
-        //When user wants to create a new account send user to Register Activity
+        // When user wants to create a new account send user to Register Activity
         Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(registerIntent);
     }
@@ -110,33 +120,34 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(pwd)) {
             Toast.makeText(LoginActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
         } else {
-            //When both email and password are available log in to the account
-            //Show the progress on Progress Dialog
+            // When both email and password are available log in to the account
+            // Show the progress on Progress Dialog
             loadingBar.setTitle("Sign In");
-            loadingBar.setMessage("Please wait ,Because Good things always take time");
+            loadingBar.setMessage("Please wait, because good things always take time");
+            loadingBar.setCanceledOnTouchOutside(false);
+            loadingBar.show();
+
             mAuth.signInWithEmailAndPassword(email, pwd)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful())//If account login successful print message and send user to main Activity
-                            {
+                            loadingBar.dismiss();
+                            if (task.isSuccessful()) { // If account login successful print message and send user to main Activity
                                 sendToMainActivity();
-                                Toast.makeText(LoginActivity.this, "Welcome to Reference Center", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
-                            } else//Print the error message incase of failure
-                            {
+                                Toast.makeText(LoginActivity.this, "Welcome to Parky", Toast.LENGTH_SHORT).show();
+                            } else { // Print the error message in case of failure
                                 String msg = task.getException().toString();
-                                Toast.makeText(LoginActivity.this, "Error: " + msg, Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
+                                Toast.makeText(LoginActivity.this, "Wrong username or password. Please try again with correct credentials.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         }
     }
 
+    @Override
     protected void onStart() {
-        //Check if user has already signed in if yes send to mainActivity
-        //This to avoid signing in everytime you open the app.
+        // Check if user has already signed in if yes send to mainActivity
+        // This to avoid signing in every time you open the app.
         super.onStart();
         if (currentUser != null) {
             sendToMainActivity();
@@ -144,10 +155,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendToMainActivity() {
-        //This is to send user to MainActivity
+        // This is to send user to MainActivity
         Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(MainIntent);
     }
 }
-
-
