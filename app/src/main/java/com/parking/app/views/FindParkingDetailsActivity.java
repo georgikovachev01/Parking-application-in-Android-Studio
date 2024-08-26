@@ -106,7 +106,7 @@ public class FindParkingDetailsActivity extends AppCompatActivity {
         });
 
         // Показваме броя на свободните места
-        tvAvailableSpots.setText("Свободни места: " + parkingSlot.getAvailableSpots());
+        tvAvailableSpots.setText("Available Spots: " + parkingSlot.getAvailableSpots());
 
         if (price != null) {
             for (Map.Entry<String, Integer> entry : price.entrySet()) {
