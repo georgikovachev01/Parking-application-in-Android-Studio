@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,7 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.parking.app.AppContants;
 import com.parking.app.R;
@@ -45,7 +45,6 @@ public class FindParkingActivity extends AppCompatActivity implements OnMapReady
     private RecyclerView recyclerView;
     private ParkingSlotAdapter adapter;
     private List<ParkingSlot> parkingSlotList;
-    private EditText searchEditText;
     private GoogleMap mMap;
     private ConstraintLayout constraintLayout;
     private static final LatLng BULGARIA_CENTER = new LatLng(42.7339, 25.4858);
@@ -59,7 +58,6 @@ public class FindParkingActivity extends AppCompatActivity implements OnMapReady
 
         constraintLayout = findViewById(R.id.container_layout);
         recyclerView = findViewById(R.id.recyclerView);
-        searchEditText = findViewById(R.id.searchEditText);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         parkingSlotList = new ArrayList<>();
@@ -71,20 +69,32 @@ public class FindParkingActivity extends AppCompatActivity implements OnMapReady
             mapFragment.getMapAsync(this);
         }
 
-        findViewById(R.id.searchButton).setOnClickListener(new View.OnClickListener() {
+        EditText searchEditText = findViewById(R.id.searchEditText);
+        Button searchButton = findViewById(R.id.searchButton);
+        Button stopSearchButton = findViewById(R.id.stopSearchButton); // Нов бутон за спиране на търсенето
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String locationName = searchEditText.getText().toString().trim();
-                if (!TextUtils.isEmpty(locationName)) {
-                    searchParkingSlots(locationName);
+                String city = searchEditText.getText().toString().trim();
+                if (!TextUtils.isEmpty(city)) {
+                    searchParkingSlotsByCity(city);
                 } else {
-                    Toast.makeText(FindParkingActivity.this, "Please enter a location name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FindParkingActivity.this, "Please enter a city name", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        stopSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchEditText.setText(""); // Изчистване на полето за търсене
+                loadParkingSlots(); // Зареждане на всички паркинги отново
+            }
+        });
+
         if (AppUtils.isInternetAvailable(this)) {
-            loadParkingSlots(); // Load all parking slots initially
+            loadParkingSlots(); // Първоначално зареждане на всички паркинги
         } else {
             AppUtils.ToastLocal(R.string.no_internet_connection, this);
         }
@@ -98,7 +108,6 @@ public class FindParkingActivity extends AppCompatActivity implements OnMapReady
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 parkingSlotList.clear();
                 mMap.clear();
-                int count = 1;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     String valueKey = snapshot.getKey();
@@ -160,29 +169,32 @@ public class FindParkingActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
-    private void searchParkingSlots(String locationName) {
-        Query query = FirebaseDatabase.getInstance().getReference().child("ParkingSlots").orderByChild("Name").startAt(locationName).endAt(locationName + "\uf8ff");
+    private void searchParkingSlotsByCity(String city) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("ParkingSlots");
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseRef.orderByChild("city").equalTo(city).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 parkingSlotList.clear();
                 mMap.clear();
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String slotName = snapshot.child("Name").getValue(String.class);
-                    String status = snapshot.child("Status").getValue(String.class);
+                    String valueKey = snapshot.getKey();
+                    String City = snapshot.child("city").getValue(String.class);
+                    String parkingimage = snapshot.child("parkingimage").getValue(String.class);
+                    Integer contact = snapshot.child("contact").getValue(Integer.class);
+                    String slotName = snapshot.child("name").getValue(String.class);
+                    String status = snapshot.child("status").getValue(String.class);
+                    ArrayList<Map<String, Integer>> reviews = (ArrayList<Map<String, Integer>>) snapshot.child("reviews").getValue();
                     Double latitude = null;
                     Double longitude = null;
                     Map<String, Integer> prices = null;
-                    ArrayList<Map<String, Integer>> reviews = null;
 
                     try {
-                        latitude = snapshot.child("Latitude").getValue(Double.class);
-                        longitude = snapshot.child("Longitude").getValue(Double.class);
+                        latitude = snapshot.child("latitude").getValue(Double.class);
+                        longitude = snapshot.child("longitude").getValue(Double.class);
                     } catch (Exception e) {
-                        String latStr = snapshot.child("Latitude").getValue(String.class);
-                        String lonStr = snapshot.child("Longitude").getValue(String.class);
+                        String latStr = snapshot.child("latitude").getValue(String.class);
+                        String lonStr = snapshot.child("longitude").getValue(String.class);
 
                         if (latStr != null && lonStr != null) {
                             try {
@@ -194,17 +206,20 @@ public class FindParkingActivity extends AppCompatActivity implements OnMapReady
                         }
                     }
 
-                    prices = (Map<String, Integer>) snapshot.child("Prices").getValue();
-                    reviews = (ArrayList<Map<String, Integer>>) snapshot.child("Reviews").getValue();
+                    prices = (Map<String, Integer>) snapshot.child("prices").getValue();
 
                     if (slotName != null && status != null && latitude != null && longitude != null && prices != null) {
                         ParkingSlot parkingSlot = new ParkingSlot(slotName, status, latitude, longitude, prices, reviews);
+                        parkingSlot.setCity(City);
+                        parkingSlot.setValueKey(valueKey);
+                        parkingSlot.setContact(contact);
+                        parkingSlot.setParkingimage(parkingimage);
                         parkingSlotList.add(parkingSlot);
-
                         LatLng location = new LatLng(latitude, longitude);
                         Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(slotName));
                         marker.setTag(parkingSlot);
                     }
+
                 }
 
                 adapter.notifyDataSetChanged();
@@ -215,7 +230,7 @@ public class FindParkingActivity extends AppCompatActivity implements OnMapReady
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(FindParkingActivity.this, "Failed to search parking slots.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FindParkingActivity.this, "Failed to load parking slots.", Toast.LENGTH_SHORT).show();
             }
         });
     }

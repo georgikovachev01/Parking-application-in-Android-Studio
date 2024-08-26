@@ -52,7 +52,7 @@ public class ParkingSlotAdapter extends RecyclerView.Adapter<ParkingSlotAdapter.
     public void onBindViewHolder(@NonNull ParkingSlotViewHolder holder, int position) {
         ParkingSlot slot = parkingSlotList.get(position);
         holder.slotNameTextView.setText("Name : " + slot.getName());
-        holder.txt_prise.setText("Price : " + slot.getSelectedPrice());
+        holder.txt_prise.setText("Period : " + slot.getSelectedPrice());
         holder.txt_contact.setText("Contact : " + "9739393939");
         holder.txt_city.setText("City : " + slot.getCity());
         holder.txt_rating.setText(String.valueOf(slot.getSelectedRating()));
